@@ -1,0 +1,10 @@
+REST API for TED Talks.
+
+Hosted on http://ted-api.appspot.com/rest/v1/json/
+
+Uses http://code.google.com/p/appengine-rest-server/ as API base
+
+Checkout the Models in the appengine/models.py file and you should be able to make queries.
+
+Example: 
+http://ted-api.appspot.com/rest/v1/json/Talk?offset=1
