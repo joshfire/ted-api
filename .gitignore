@@ -1,3 +1,4 @@
+appengine/credentials.py
 *.pyc
 .DS_Store
 docs/_build
