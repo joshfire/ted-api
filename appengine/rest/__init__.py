@@ -1172,11 +1172,13 @@ class Dispatcher(webapp.RequestHandler):
     authorizer = Authorizer()
     
     content_type_order = [JSON_CONTENT_TYPE,XML_CONTENT_TYPE]
-    
     model_handlers = {}
+    
 
     def __init__(self):
+      
         super(Dispatcher, self).__init__()
+        
 
     def add_models_from_module(cls, model_module, use_module_name=False, exclude_model_types=None,
                                model_methods=ALL_MODEL_METHODS):
