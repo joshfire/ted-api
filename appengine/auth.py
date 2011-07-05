@@ -1,7 +1,11 @@
 import rest
 import logging
 import base64
-import credentials
+
+
+import json
+
+credentials = json.load("credentials.json")
 
 AUTHENTICATE_HEADER = "WWW-Authenticate"
 AUTHORIZATION_HEADER = "Authorization"
@@ -39,7 +43,7 @@ class BasicAuthenticator(rest.Authenticator):
             dispatcher.response.out.write("<html><body>401 Authentication Required</body></html>")
             raise rest.DispatcherException()
 
-        if user_arg==credentials.USER and pass_arg==credentials.PASS:
+        if user_arg==credentials["USER"] and pass_arg==credentials["PASS"]:
             return
             
         dispatcher.forbidden()

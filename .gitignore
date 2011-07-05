@@ -1,4 +1,4 @@
-appengine/credentials.py
+appengine/credentials.json
 *.pyc
 .DS_Store
 docs/_build
