@@ -1,6 +1,7 @@
 var request = require('request'),
     sys = require('sys'),
-    Crawler = require('../../node-crawler/lib/crawler.js').Crawler;
+    Crawler = require('../../node-crawler/lib/crawler.js').Crawler,
+    fs = require("fs");
     
     //require("v8-profiler");
 
@@ -9,6 +10,8 @@ var debug = function(a) {sys.puts(JSON.stringify(a));};
 var REST_TARGET = "http://ted-api.appspot.com/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 var REST_TARGET_WRITE = "http://ted-api.appspot.com/auth/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 
+var json = fs.readFileSync("../credentials.json", "utf-8"); 
+var credentials = JSON.parse(json);
 
 //Get the TEDTalks list
 console.log("Fetching TED Talks...");
