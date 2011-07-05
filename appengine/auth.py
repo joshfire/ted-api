@@ -3,9 +3,9 @@ import logging
 import base64
 
 
-import json
+from django.utils import simplejson as json
 
-credentials = json.load("credentials.json")
+credentials = json.load(open("credentials.json","r"))
 
 AUTHENTICATE_HEADER = "WWW-Authenticate"
 AUTHORIZATION_HEADER = "Authorization"

@@ -10,7 +10,7 @@ var debug = function(a) {sys.puts(JSON.stringify(a));};
 var REST_TARGET = "http://ted-api.appspot.com/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 var REST_TARGET_WRITE = "http://ted-api.appspot.com/auth/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 
-var json = fs.readFileSync("../credentials.json", "utf-8"); 
+var json = fs.readFileSync("../appengine/credentials.json", "utf-8"); 
 var credentials = JSON.parse(json);
 
 //Get the TEDTalks list
