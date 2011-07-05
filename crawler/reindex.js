@@ -183,7 +183,8 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                     
                         var talker = {
                             "tedid":$("a:contains(Full bio and more links)")[0].href.match(new RegExp("/(index\.php/)?speakers/(.*?)\\.html"))[2],
-                            "name":talk_data.gsx$speaker.$t
+                            "name":talk_data.gsx$speaker.$t,
+                            "description": {}
                         };
                         
                         talk.event=event.key;
@@ -199,6 +200,14 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                         
                                 $talker("#speakerscontent img").each(function(i,el){
                                     talker.image = el.src;
+                                });
+
+                                $talker("#speakerscontent > div:first-child > p").each(function(i,el){
+                                    talker.description.small = $(el).text();
+                                });
+
+                                $talker("#speakerscontent .why > p:first-of-type").each(function(i,el){
+                                    talker.description.big = $(el).text();
                                 });
                         
                                 submit("Talker",talker,function(error,talker) {
