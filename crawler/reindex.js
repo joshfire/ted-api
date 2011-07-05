@@ -5,8 +5,6 @@ var request = require('request'),
     
     //require("v8-profiler");
 
-var debug = function(a) {sys.puts(JSON.stringify(a));};
-
 var REST_TARGET = "http://ted-api.appspot.com/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 var REST_TARGET_WRITE = "http://ted-api.appspot.com/auth/rest/v1/json/"; //http://localhost:8080/rest/v1/json/
 
@@ -81,7 +79,7 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                 "headers":{
                     "Content-Type":"application/json",
                     "Accept":"application/json",
-                    "Authorization":"Basic "+toBase64("ted at josh:cest moi qui fait les regles!")
+                    "Authorization":"Basic "+toBase64(credentials.USER+":"+credentials.PASS)
                 },
                 "body":JSON.stringify(obj),
                 "priority":0,
@@ -109,6 +107,7 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                     if (k) {
                         data.key=k;
                     }
+                    //console.log("SAVE",model,data);
                     //todo might be possible to insert duplicates here (use a second crawler with next() support, and cache disabled to re-enalbe it in the main crawler)
                     save(model,data,callback);
                     
@@ -184,7 +183,8 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                         var talker = {
                             "tedid":$("a:contains(Full bio and more links)")[0].href.match(new RegExp("/(index\.php/)?speakers/(.*?)\\.html"))[2],
                             "name":talk_data.gsx$speaker.$t,
-                            "description": {}
+                            "shortsummary": "",
+                            "summary": ""
                         };
                         
                         talk.event=event.key;
@@ -197,19 +197,19 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                             "callback":function(error,response,$talker) {
                         
                                 if (error || !response.content) return console.log("ERROR",error);
-                        
+                                
                                 $talker("#speakerscontent img").each(function(i,el){
                                     talker.image = el.src;
                                 });
-
+                                
+                                $talker("#speakerscontent .why > p").slice(0,-1).each(function(i,el) {
+                                  talker.summary += "<p>"+$(el).html()+"</p>";
+                                });
+                                
                                 $talker("#speakerscontent > div:first-child > p").each(function(i,el){
-                                    talker.description.small = $(el).text();
+                                     talker.shortsummary = $(el).text();
                                 });
-
-                                $talker("#speakerscontent .why > p:first-of-type").each(function(i,el){
-                                    talker.description.big = $(el).text();
-                                });
-                        
+                                
                                 submit("Talker",talker,function(error,talker) {
                                     
                                     talk.talker = talker.key;
@@ -255,13 +255,12 @@ request({uri:'http://spreadsheets.google.com/feeds/list/0AsKzpC8gYBmTcGpHbFlILTh
                                               "callback":function(error,response,$theme) {
                                             
                                                 if ($theme("#contextual .about div > img").size()) {
-                                                  var image = $theme("#contextual .about div > img")[0].src;
+                                                  theme.image = $theme("#contextual .about div > img")[0].src;
                                                 
                                                   submit("Theme",theme,function(error,theme) {
                                                       var talktheme = {
                                                           theme:theme.key,
-                                                          talk:talk.key,
-                                                          image:image
+                                                          talk:talk.key
                                                       };
                                                       submit("TalkTheme",talktheme);
                                                   });

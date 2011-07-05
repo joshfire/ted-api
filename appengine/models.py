@@ -3,6 +3,8 @@ from google.appengine.ext import db
 class Talker(db.Model):
     tedid = db.StringProperty()
     name = db.StringProperty(required=True)
+    shortsummary = db.TextProperty(required=True)
+    summary = db.TextProperty(required=True)
     image = db.StringProperty()
 
 class Event(db.Model):
@@ -51,7 +53,6 @@ class Video(db.Model):
     mimetype = db.StringProperty(required=True)
     format = db.StringProperty(required=True)
     url = db.StringProperty(required=True)
-    
     
     talk = db.ReferenceProperty(Talk,required=True)
     
