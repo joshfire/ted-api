@@ -18,6 +18,7 @@ class Theme(db.Model):
 class Tag(db.Model):
     tedid = db.StringProperty(required=True)
     name = db.StringProperty(required=True)
+    image = db.StringProperty(required=True)
 
 class Talk(db.Model):
     tedid = db.IntegerProperty()
